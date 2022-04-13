@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('customer_fields', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('customers')->cascadeOnDelete();
-            $table->string('field_key');
-            $table->string('field_value');
+            $table->string('name');
+            $table->decimal('price');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_fields');
+        Schema::dropIfExists('products');
     }
 };

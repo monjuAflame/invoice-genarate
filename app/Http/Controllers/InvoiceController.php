@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\CustomerField;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -27,7 +28,9 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoices.create');
+        $customers = Customer::all();
+        $products = Product::all();
+        return view('invoices.create', compact('customers', 'products'));
     }
 
     /**
@@ -38,8 +41,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        $customer = Customer::create($request->customer);
-        $invoice = Invoice::create($request->invoice + ['customer_id' => $customer->id]);
+        $invoice = Invoice::create($request->invoice);
 
         for ($i=0; $i < count($request->product); $i++) { 
             if (isset($request->qty[$i]) && isset($request->price[$i])) {
@@ -52,17 +54,7 @@ class InvoiceController extends Controller
             }
         }
 
-        for ($i=0; $i < count($request->customer_fields); $i++) { 
-            if (isset($request->customer_fields[$i]['field_key']) && isset($request->customer_fields[$i]['field_value'])) {
-                CustomerField::create([
-                    'customer_id' => $customer->id,
-                    'field_key' => $request->customer_fields[$i]['field_key'],
-                    'field_value' => $request->customer_fields[$i]['field_value']
-                ]);
-            }
-        }
-
-        return 'To be continued';
+        return redirect()->route('home');
 
     }
 

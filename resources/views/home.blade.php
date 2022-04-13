@@ -13,6 +13,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
+
+                    <a href="{{ route('invoices.create') }}" class="btn btn-primary">Add new invoice</a>
+
+                    <br /><br />
                     <table class="table">
                         <tr>
                             <th>Invoice Date</th>

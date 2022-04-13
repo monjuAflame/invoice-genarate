@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\CustomerField;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -14,7 +15,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::all();
+        return view('customers.index', compact('customers'));
     }
 
     /**
@@ -24,7 +26,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('customers.create');
     }
 
     /**
@@ -35,7 +37,17 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $customer = Customer::create($request->all());
+        for ($i=0; $i < count($request->customer_fields); $i++) {
+            if (isset($request->customer_fields[$i]['field_key']) && isset($request->customer_fields[$i]['field_value'])) {
+                CustomerField::create([
+                    'customer_id' => $customer->id,
+                    'field_key' => $request->customer_fields[$i]['field_key'],
+                    'field_value' => $request->customer_fields[$i]['field_value']
+                ]);
+            }
+        }
+        return redirect()->route('customers.index');
     }
 
     /**

@@ -23,7 +23,7 @@
                             </div>
                         </div>
 
-                        <div class="row clearfix" style="margin-top:20px">
+                        {{-- <div class="row clearfix" style="margin-top:20px">
                             <div class="col-md-12">
                                 <div class="float-left col-md-6">
                                     Name*: <input type="text" name='customer[name]' class="form-control" required />
@@ -68,6 +68,30 @@
                                     VAT Number: xx xxxxx xxxx
                                 </div>
                             </div>
+                        </div> --}}
+                        <div class="row clearfix" style="margin-top:20px">
+                            <div class="col-md-12">
+                                <div class="float-left col-md-6">
+                                    Choose customer:
+                                    <br />
+                                    <select name="invoice[customer_id]">
+                                        @foreach ($customers as $customer)
+                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="float-right col-md-4">
+                                    <b>Seller details</b>:
+                                    <br /><br />
+                                    Your company name
+                                    <br />
+                                    1 Street Name, London, United Kingdom
+                                    <br />
+                                    Email: xxxxx@company.com
+                                    <br />
+                                    VAT Number: xx xxxxx xxxx
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row clearfix" style="margin-top:20px">
@@ -85,7 +109,13 @@
                                     <tbody>
                                     <tr id='addr0'>
                                         <td>1</td>
-                                        <td><input type="text" name='product[]'  placeholder='Enter Product Name' class="form-control"/></td>
+                                        <td>
+                                            <select name="product[]" class="form-control">
+                                                @foreach ($products as $product)
+                                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
                                         <td><input type="text" name='qty[]' placeholder='Enter Qty' class="form-control qty" step="0" min="0"/></td>
                                         <td><input type="text" name='price[]' placeholder='Enter Unit Price' class="form-control price" step="0.00" min="0"/></td>
                                         <td><input type="number" name='total[]' placeholder='0.00' class="form-control total" readonly/></td>
