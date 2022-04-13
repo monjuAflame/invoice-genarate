@@ -29,6 +29,7 @@
                                 <td>{{ number_format($item->total_amount, 2) }}</td>
                                 <td>
                                     <a href="{{ route('invoices.show', $item->id) }}" class="btn btn-sm btn-info">View invoice</a>
+                                    <a href="{{ route('invoices.download', $item->id) }}" class="btn btn-sm btn-warning">Download PDF</a>
                                 </td>
                             </tr>
                         @endforeach

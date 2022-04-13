@@ -110,4 +110,12 @@ class InvoiceController extends Controller
     {
         //
     }
+
+    public function download($invoice_id)
+    {
+        $invoice = Invoice::findOrFail($invoice_id);
+        $pdf     = \PDF::loadView('invoices.pdf', compact('invoice'));
+
+        return $pdf->stream('invoice.pdf');
+    }
 }
