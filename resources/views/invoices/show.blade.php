@@ -26,7 +26,7 @@
 
                         <div class="row clearfix" style="margin-top:20px">
                             <div class="col-md-12">
-                                <div class="float-start col-md-6">
+                                <div class="float-left col-md-6">
                                     <b>To</b>:
                                     {{ $invoice->customer->name }}
                                     <br /><br />
@@ -42,7 +42,7 @@
                                         ,
                                         {{ $invoice->customer->state }}
                                     @endif
-                                    , {{ $invoice->customer->country }}
+                                    , {{ $invoice->customer->country->title ?? '' }}
 
                                     @if ($invoice->customer->phone != '')
                                         <br /><br /><b>Phone</b>: {{ $invoice->customer->phone }}
@@ -57,8 +57,8 @@
                                         @endforeach
                                     @endif
                                 </div>
-                                <div class="float-end col-md-4">
-                                    <b>From</b>: {{ config('invoice.seller.name') }}
+                                <div class="float-right col-md-4">
+                                    <b>From</b>: {{ config('invoices.seller.name') }}
                                     <br /><br />
                                     <b>Address</b>: {{ config('invoice.seller.address') }}
                                     @if (config('invoice.seller.email') != '')
@@ -83,8 +83,8 @@
                                         <th class="text-center"> # </th>
                                         <th class="text-center"> Product </th>
                                         <th class="text-center"> Qty </th>
-                                        <th class="text-center"> Price </th>
-                                        <th class="text-center"> Total </th>
+                                        <th class="text-center"> Price ({{ config('invoice.currency') }}) </th>
+                                        <th class="text-center"> Total ({{ config('invoice.currency') }}) </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -107,20 +107,20 @@
                                     <table class="table table-bordered table-hover" id="tab_logic_total">
                                         <tbody>
                                         <tr>
-                                            <th class="text-center" width="50%">Sub Total</th>
+                                            <th class="text-center" width="60%">Sub Total ({{ config('invoice.currency') }})</th>
                                             <td class="text-center">{{ number_format($invoice->total_amount, 2) }}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-center">Tax</th>
-                                            <td class="text-center">{{ $invoice->tax_percent }}%</td>
+                                            <td class="text-center">{{ $invoice->tax_parcent }}%</td>
                                         </tr>
                                         <tr>
-                                            <th class="text-center">Tax Amount</th>
-                                            <td class="text-center">{{ number_format($invoice->total_amount * $invoice->tax_percent / 100, 2) }}</td>
+                                            <th class="text-center">Tax Amount ({{ config('invoice.currency') }})</th>
+                                            <td class="text-center">{{ number_format($invoice->total_amount * $invoice->tax_parcent, 2) }}</td>
                                         </tr>
                                         <tr>
-                                            <th class="text-center">Grand Total</th>
-                                            <td class="text-center">{{ number_format($invoice->total_amount + ($invoice->total_amount * $invoice->tax_percent / 100), 2) }}</td>
+                                            <th class="text-center">Grand Total ({{ config('invoice.currency') }})</th>
+                                            <td class="text-center">{{ number_format($invoice->total_amount + ($invoice->total_amount * $invoice->tax_parcent), 2) }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -129,7 +129,7 @@
                         </div>
                         <div class="row clearfix" style="margin-top:20px">
                             <div class="col-md-12">
-                                {{ config('invoices.footer_text') }}
+                                {{ config('invoice.footer_text') }}
                             </div>
                         </div>
                     </div>

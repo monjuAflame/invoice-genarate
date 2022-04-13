@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 class Invoice extends Model
 {
     use HasFactory;
@@ -25,7 +25,7 @@ class Invoice extends Model
     {
         $tolat_amount = 0;
         foreach ($this->invoice_items as $item) {
-            $tolat_amount += $item->price * $item->quantity;
+            $tolat_amount += ($item->price * $item->quantity);
         }
         return $tolat_amount;
     }

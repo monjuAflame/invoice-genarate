@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="clearfix">
-        @if (config('invoices.logo_file') != '')
+        @if (config('invoice.logo_file') != '')
             <div class="text-center">
-                <img src="{{ asset(config('invoices.logo_file')) }}" />
+                <img src="{{ asset(config('invoice.logo_file')) }}" />
             </div>
         @endif
 
@@ -32,7 +32,7 @@
                 ,
                 {{ $invoice->customer->state }}
             @endif
-            , {{ $invoice->customer->country }}
+            , {{ $invoice->customer->country->title ?? '' }}
 
             @if ($invoice->customer->phone != '')
                 <br /><br /><b>Phone</b>: {{ $invoice->customer->phone }}
@@ -49,15 +49,15 @@
         </div>
 
         <div class="float-right">
-            <b>From</b>: {{ config('invoices.seller.name') }}
+            <b>From</b>: {{ config('invoice.seller.name') }}
             <br /><br />
-            <b>Address</b>: {{ config('invoices.seller.address') }}
-            @if (config('invoices.seller.email') != '')
+            <b>Address</b>: {{ config('invoice.seller.address') }}
+            @if (config('invoice.seller.email') != '')
                 <br /><br />
-                <b>Email</b>: {{ config('invoices.seller.email') }}
+                <b>Email</b>: {{ config('invoice.seller.email') }}
             @endif
-            @if (is_array(config('invoices.seller.additional_info')))
-                @foreach (config('invoices.seller.additional_info') as $key => $value)
+            @if (is_array(config('invoice.seller.additional_info')))
+                @foreach (config('invoice.seller.additional_info') as $key => $value)
                     <br /><br />
                     <b>{{ $key }}</b>: {{ $value }}
                 @endforeach
@@ -72,8 +72,8 @@
                 <th class="text-center"> # </th>
                 <th> Product </th>
                 <th class="text-center"> Qty </th>
-                <th class="text-center"> Price </th>
-                <th class="text-center"> Total </th>
+                <th class="text-center"> Price ({{ config('invoice.currency') }}) </th>
+                <th class="text-center"> Total ({{ config('invoice.currency') }}) </th>
             </tr>
             </thead>
             <tbody>
@@ -94,9 +94,9 @@
     <div class="clearfix mt-3">
         <table class="float-right table tbl-total">
             <tbody>
-            @if ($invoice->tax_percent > 0)
+            @if ($invoice->tax_parcent > 0)
                 <tr>
-                    <th class="text-right">Sub Total:</th>
+                    <th class="text-right">Sub Total ({{ config('invoice.currency') }}):</th>
                     <td class="text-left">
                         {{ number_format($invoice->total, 2) }}
                     </td>
@@ -104,20 +104,20 @@
                 <tr>
                     <th class="text-right">Tax:</th>
                     <td class="text-left">
-                        {{ $invoice->tax_percent }}%
+                        {{ $invoice->tax_parcent }}%
                 </tr>
                 <tr>
-                    <th class="text-right">Tax Amount:</th>
+                    <th class="text-right">Tax Amount ({{ config('invoice.currency') }}):</th>
                     <td class="text-left">
-                        {{ number_format($invoice->total * $invoice->tax_percent / 100, 2) }}
+                        {{ number_format($invoice->total * $invoice->tax_parcent / 100, 2) }}
                     </td>
                 </tr>
             @endif
             <tr>
-                <th class="text-right">Grand Total:</th>
+                <th class="text-right">Grand Total ({{ config('invoice.currency') }}):</th>
                 <td class="text-left">
-                    @if ($invoice->tax_percent > 0)
-                        {{ number_format($invoice->total * (1 + $invoice->tax_percent / 100), 2) }}
+                    @if ($invoice->tax_parcent > 0)
+                        {{ number_format($invoice->total * (1 + $invoice->tax_parcent / 100), 2) }}
                     @else
                         {{ number_format($invoice->total, 2) }}
                     @endif
@@ -128,6 +128,6 @@
     </div>
 
     <div class="clearfix mt-3">
-        {{ config('invoices.footer_text') }}
+        {{ config('invoice.footer_text') }}
     </div>
 @endsection

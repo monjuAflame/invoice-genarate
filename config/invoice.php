@@ -12,6 +12,7 @@ return [
             'VAT Number' => 'XX XXX XXX'
         ]
     ],
+    'tax' => '40',
     'currency' => 'EUR',
 
 ];

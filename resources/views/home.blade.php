@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,9 +14,6 @@
                         </div>
                     @endif
 
-                    <a href="{{ route('invoices.create') }}" class="btn btn-primary">Add new invoice</a>
-
-                    <br /><br />
                     <table class="table">
                         <tr>
                             <th>Invoice Date</th>
@@ -25,15 +22,15 @@
                             <th>Total Amount</th>
                             <th></th>
                         </tr>
-                        @foreach ($invoices as $item)
+                        @foreach ($invoices as $invoice)
                             <tr>
-                                <td>{{ $item->invoice_date }}</td>
-                                <td>{{ $item->invoice_number }}</td>
-                                <td>{{ $item->customer->name }}</td>
-                                <td>{{ number_format($item->total_amount, 2) }}</td>
+                                <td>{{ $invoice->invoice_date }}</td>
+                                <td>{{ $invoice->invoice_number }}</td>
+                                <td>{{ $invoice->customer->name }}</td>
+                                <td>{{ number_format($invoice->total_amount, 2) }}</td>
                                 <td>
-                                    <a href="{{ route('invoices.show', $item->id) }}" class="btn btn-sm btn-info">View invoice</a>
-                                    <a href="{{ route('invoices.download', $item->id) }}" class="btn btn-sm btn-warning">Download PDF</a>
+                                    <a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-sm btn-info">View invoice</a>
+                                    <a href="{{ route('invoices.download', $invoice->id) }}" class="btn btn-sm btn-warning">Download PDF</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Mpociot\VatCalculator\Facades\VatCalculator;
 
 class InvoiceController extends Controller
 {
@@ -26,11 +27,11 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $customers = Customer::all();
+        $customer = Customer::find($request->customer_id);
         $products = Product::all();
-        return view('invoices.create', compact('customers', 'products'));
+        return view('invoices.create', compact('products', 'customer'));
     }
 
     /**
